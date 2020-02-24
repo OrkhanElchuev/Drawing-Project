@@ -14,7 +14,7 @@ public class DrawLine : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-        // If left button of mouse clicked
+        // If left button of mouse is clicked
         if (Input.GetMouseButtonDown (0))
         {
             CreateLine ();
@@ -23,6 +23,7 @@ public class DrawLine : MonoBehaviour
         if (Input.GetMouseButton (0))
         {
             Vector2 tempDrawingPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+            // Check if the mouse moves while being hold (by checking distance between last drawing position and current mouse position)
             if (Vector2.Distance (tempDrawingPos, drawingPositions[drawingPositions.Count - 1]) >.1f)
             {
                 UpdateLine(tempDrawingPos);
@@ -32,6 +33,7 @@ public class DrawLine : MonoBehaviour
 
     private void CreateLine ()
     {
+        // Create a line (position is set by Line Renderer component)
         currentLine = Instantiate (linePrefab, Vector3.zero, Quaternion.identity);
         lineRenderer = currentLine.GetComponent<LineRenderer> ();
         edgeCollider = currentLine.GetComponent<EdgeCollider2D> ();
@@ -49,9 +51,11 @@ public class DrawLine : MonoBehaviour
 
     private void UpdateLine (Vector2 newDrawingPos)
     {
+        // Add current drawing position into the list
         drawingPositions.Add (newDrawingPos);
         lineRenderer.positionCount++;
         lineRenderer.SetPosition (lineRenderer.positionCount - 1, newDrawingPos);
+        // Update edge collider
         edgeCollider.points = drawingPositions.ToArray ();
     }
 }
