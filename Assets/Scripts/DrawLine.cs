@@ -15,14 +15,14 @@ public class DrawLine : MonoBehaviour
     void Update ()
     {
         // If left button of mouse clicked
-        if (Input.GetMouseButton (0))
+        if (Input.GetMouseButtonDown (0))
         {
             CreateLine ();
         }
         // If left button of mouse is being hold
         if (Input.GetMouseButton (0))
         {
-            Vector2 tempDrawingPos = Camera.main.ScreenToViewportPoint (Input.mousePosition);
+            Vector2 tempDrawingPos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
             if (Vector2.Distance (tempDrawingPos, drawingPositions[drawingPositions.Count - 1]) >.1f)
             {
                 UpdateLine(tempDrawingPos);
